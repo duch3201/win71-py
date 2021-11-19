@@ -5,6 +5,7 @@ import os
 
 def shutdown():
     print("Shutting down...")
+    #need to add a proper way to shutdown the system
     sys.exit()
 
 def main(username): 
@@ -29,11 +30,11 @@ def main(username):
             directory = input("Enter directory: ")
             os.rmdir(directory)
             main()
-        if command == "ls":
+        if command == "ls": #fix this so it will list files and directories
             FTP.retrlines("LIST")
             main()
         if command == "rm":
-            file = input("Enter file: ")
+            file = input("Enter file: ") #add a warning for deleting system files
             print("are you sure you wan't to delete the file? (Y/n)")
             option = input(": ")
             if option == "Y" or option == "y":
