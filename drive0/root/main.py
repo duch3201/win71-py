@@ -70,7 +70,7 @@ def readreqfils():
     main(username)
 
 
-main()
+main("username")
 
 
 
