@@ -3,3 +3,4 @@ a remake of my old project called win71 but in python
 
 
 ### works in windows only for now
+## should work in linux idk
