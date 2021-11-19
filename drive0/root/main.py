@@ -69,7 +69,7 @@ def readreqfils():
     main(username)
 
 
-
+main()
 
 
 
