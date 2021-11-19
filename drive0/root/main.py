@@ -61,6 +61,7 @@ def main(username):
 
 def readreqfils():
     print("Reading required files...")
+    os.chdir("..")
     os.chdir("tmp")
     tmpusrfile = ""
     username = ""
