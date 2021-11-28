@@ -1,9 +1,37 @@
 import sys
 import os
-#import main
+import zlib
+from cryptography.fernet import Fernet
+
+
+def generatekey():
+
+    #this function generates a encryption key that shall be used 
+    #to encrypt and decrypt the password and other strings that
+    #may contain sensitive information. that we do not want to store
+    #in plain text. in the near future we may use this key to encrypt
+    #and decrypt user files as well as other things that we may need to
+    #encrypt.
+    #:)
+
+    os.chdir("..")
+    os.chdir("boot")
+
+    key = Fernet.generate_key()
+
+    with open("enc.key", "wb") as key_file:
+        key_file.write(key)
+
+def load_key():
+    #this function loads the encryption key
+    os.chdir("..")
+    os.chdir("boot")
+    return open("enc.key", "rb").read()
 
 os.chdir("..")
 os.chdir("tmp")
+
+
 
 def login():
     try:
@@ -12,14 +40,18 @@ def login():
         print("welcome to win71!", '\n', "please login")
         username = input("username: ")
         password = input("password: ")
-        tempwrite = open("tmpusrfile", "w")
-        tempwrite.write(username)
-        tempwrite.write(password)
-        tempwrite.close()        
-        os.chdir("..")
-        os.chdir("root")
+        tempwrite = open("tmpusrfile.user", "w")
+
+        #encrypt the password
+        key = Fernet.generate_key()
+        f = Fernet(key)
+        encrypted = f.encrypt(password.encode())
+        with open("tmpusrfile.user", 'w+b') as enctmp_usr_file:
+            enctmp_usr_file.write(encrypted)
         
-        return username
+        #write the username to the tmp file
+        with open("tmpusrnamfile.user", 'w') as usrnam_file:
+            usrnam_file.write(username)
 
     except KeyboardInterrupt:
         print("keybord interupt detected!")
@@ -28,7 +60,7 @@ login()
 
 
 
-
+        #might need this code below later
 
 
         #try:
