@@ -53,6 +53,12 @@ def login():
         with open("tmpusrnamfile.user", 'w') as usrnam_file:
             usrnam_file.write(username)
 
+        #write the key to memory for decryption
+        os.chdir("..")
+        os.chdir("boot")
+        with open("enc.key", 'wb') as key_file:
+            key_file.write(key)
+
     except KeyboardInterrupt:
         print("keybord interupt detected!")
 
