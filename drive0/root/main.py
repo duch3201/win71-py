@@ -2,10 +2,12 @@ import sys
 import os
 import syslogon
 from cryptography.fernet import Fernet
+import getpass
 
 username = ""
 setupfinised = False 
-    
+irlusrname = getpass.getuser()
+
 
 def readreqfiles(setup):
     global setupfinised
@@ -58,13 +60,20 @@ def main(username, usrfile, F):
  
     try:
         while True:
+            #this code replaces the standard path in the command input
             currdir = os.getcwd()
-            currdir = currdir.replace("/home/duch3201/Desktop/win71-py/", "") 
-            command = input(os.getcwd() + ": ")
+            currdir = currdir.replace("/home", "")
+            currdir = currdir.replace("/Desktop/win71-py/", "") 
+            currdir = currdir.replace(irlusrname, "")
+            
+            command = input(currdir + ": ")
+
             if command == "quit":
                 shutdown()
             if command == "cd":
-                command = command.replace("cd", "")
+                command = input("Enter the directory you would like to go to: ")
+                print(command)
+                #command = command.replace("cd", "")
                 os.chdir(command)
                 print(command)
                 #directory = input("Enter directory: ")
