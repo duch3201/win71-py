@@ -3,6 +3,7 @@ import os
 import syslogon
 from cryptography.fernet import Fernet
 import getpass
+import platform
 
 username = ""
 setupfinised = False 
@@ -13,10 +14,12 @@ def readreqfiles(setup):
     global setupfinised
     setupfinised = False
     print("Reading required files...")
+
     #Read the encryption key
     os.chdir("..")
     os.chdir("boot")
     enckey = open("enc.key", "rb").read()
+    
     #Read the tmpfiles
     os.chdir("..")
     os.chdir("tmp")
@@ -71,9 +74,9 @@ def main(username, usrfile, F):
             if command == "quit":
                 shutdown()
             if command == "cd":
-                command = input("Enter the directory you would like to go to: ")
+                #command = input("Enter the directory you would like to go to: ")
                 print(command)
-                #command = command.replace("cd", "")
+                command = command.replace("cd", "")
                 os.chdir(command)
                 print(command)
                 #directory = input("Enter directory: ")
@@ -87,6 +90,9 @@ def main(username, usrfile, F):
                 os.rmdir(directory)
             if command == "ls": #fix this so it will list files and directories
                 print(os.listdir())
+            if command == "osinfo":
+                #if command == "osinfo -i":
+                print(platform.system() + " " + platform.release())
             if command == "rm":
                 file = input("Enter file: ") #add a warning for deleting system files
                 auth(F, usrfile)
