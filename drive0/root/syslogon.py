@@ -2,6 +2,21 @@ import sys
 import os
 import zlib
 from cryptography.fernet import Fernet
+import platform
+
+
+def bootup():
+    #bootcfg_spliced = ""
+    os.chdir("..")
+    os.chdir("root")
+    if platform.system() == "Windows":
+        with open("boot.cfg", "r") as bootcfg:
+            contentsbootcfg = bootcfg.readlines()
+            print(contentsbootcfg[0])
+            bootcfg_spliced = contentsbootcfg[0].replace("topos =", "")
+            print(bootcfg_spliced)
+            os.chdir("..")
+            print(os.getcwd())
 
 
 def generatekey():
