@@ -5,15 +5,18 @@ from cryptography.fernet import Fernet
 import getpass
 import platform
 
-global username
+
 global setupfinised
 username = ""
 password = ""
+usr_action_confirmed = False
 setupfinised = False 
 irlusrname = getpass.getuser()
 
 
 def readreqfiles(setupfinised):
+    global username
+
     setupfinised = False
     os.chdir("..")
     os.chdir("root")
@@ -32,18 +35,27 @@ def readreqfiles(setupfinised):
         print(username)
         print(password)
 
-def auth(F, usrfile):
-    #this function will be used to confirm the users choice?
-    print("Enter your password")
-    passconf = input(": ")
-    epassconf = F.encrypt(passconf.encode())
-    if epassconf == usrfile:
+def auth(password, usr_action_confirmed):
+    passconfirm = input("Enter password: ")
+    if passconfirm == password:
         usr_action_confirmed = True
-        return
     else:
+        print("Incorrect password")
         usr_action_confirmed = False
-        print("incorrect password")
-        return
+
+
+
+    # #this function will be used to confirm the users choice?
+    # print("Enter your password")
+    # passconf = input(": ")
+    # epassconf = F.encrypt(passconf.encode())
+    # if epassconf == usrfile:
+    #     usr_action_confirmed = True
+    #     return
+    # else:
+    #     usr_action_confirmed = False
+    #     print("incorrect password")
+    #     return
 
     
 
@@ -60,7 +72,7 @@ def shutdown():
 print("What would you like to do?")
 
 def main(username): 
-    
+    global usr_action_confirmed
     try:
         while True:
             #this code replaces the standard path in the command input
@@ -95,7 +107,7 @@ def main(username):
                 print(platform.system() + " " + platform.release())
             if command == "rm":
                 file = input("Enter file: ") #add a warning for deleting system files
-                auth()
+                auth(password, usr_action_confirmed)
                 if usr_action_confirmed == True:
                     os.remove(file)
                     usr_action_confirmed = False
