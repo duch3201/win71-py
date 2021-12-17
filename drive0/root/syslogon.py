@@ -15,7 +15,7 @@ def bootup():
             print(contentsbootcfg[0])
             bootcfg_spliced = contentsbootcfg[0].replace("topos =", "")
             print(bootcfg_spliced)
-            os.chdir("..")
+            #os.chdir("..")
             print(os.getcwd())
 
 
@@ -49,30 +49,31 @@ os.chdir("tmp")
 
 
 def login():
+    bootup()
     try:
         test = os.getcwd()
         print(test)
         print("welcome to win71!", '\n', "please login")
         username = input("username: ")
         password = input("password: ")
-        tempwrite = open("tmpusrfile.user", "w")
+        with open("tmpusrfile.user", "w") as tmpusrfile:
+            tmpusrfile.writable()
+            tmpusrfile.write(str(username))
+            tmpusrfile.write("\n")
+            tmpusrfile.write(password)
 
-        #encrypt the password
-        key = Fernet.generate_key()
-        f = Fernet(key)
-        encrypted = f.encrypt(password.encode())
-        with open("tmpusrfile.user", 'w+b') as enctmp_usr_file:
-            enctmp_usr_file.write(encrypted)
+
+
+        #hashed_password = hash(password)
+
+        #with open('boot.cfg', 'r', encoding='utf-8') as file:
+         #   data = file.readlines()
         
-        #write the username to the tmp file
-        with open("tmpusrnamfile.user", 'w') as usrnam_file:
-            usrnam_file.write(username)
-
-        #write the key to memory for decryption
-        os.chdir("..")
-        os.chdir("boot")
-        with open("enc.key", 'wb') as key_file:
-            key_file.write(key)
+        #print(data)
+        #data[1] = hashed_password
+        
+        #with open('boot.cfg', 'w', encoding='utf-8') as file:
+         #   file.writelines(str(data))
 
     except KeyboardInterrupt:
         print("keybord interupt detected!")
@@ -118,3 +119,43 @@ login()
                    # tmpusrfile.close()
                     #os.chdir("..")
                     #os.system('python main.py')
+
+        #encrypt the password
+        #key = Fernet.generate_key()
+        #f = Fernet(key)
+        #encrypted = f.encrypt(password.encode())
+        #with open("tmpusrfile.user", 'w+b') as enctmp_usr_file:
+         #   enctmp_usr_file.write(encrypted)
+        
+        #write the username to the tmp file
+        #with open("tmpusrnamfile.user", 'w') as usrnam_file:
+         #   usrnam_file.write(username)
+
+        #write the key to memory for decryption
+        #os.chdir("..")
+        #os.chdir("boot")
+        #with open("enc.key", 'wb') as key_file:
+         #   key_file.write(key)
+
+
+    #global setupfinised
+    #setupfinised = False
+    #print("Reading required files...")
+    #print(os.getcwd())
+
+    #Read the encryption key
+    #os.chdir("..")
+    #os.chdir("boot")
+    #enckey = open("enc.key", "rb").read()
+    #print(os.getcwd())
+    #Read the tmpfiles
+    #os.chdir("..")
+    #os.chdir("tmp")
+    #print(os.getcwd())
+    #global usrfile
+    #global username
+    #usrfile = open("tmpusrfile.user", "r").read()
+    #username = open("tmpusrnamfile.user", "r").read()
+    #setupfinised = True
+    #global F
+    #F = Fernet(enckey)
