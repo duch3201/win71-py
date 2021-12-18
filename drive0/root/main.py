@@ -11,14 +11,23 @@ username = ""
 password = ""
 usr_action_confirmed = False
 setupfinised = False 
+host_os = "Windows"
+top_dir = ""
+currdir = ""
 irlusrname = getpass.getuser()
 
 
 def readreqfiles(setupfinised):
     global username
-
-    setupfinised = False
+    host_os = ""
+    global currdir
+    #get the top directory
     os.chdir("..")
+    os.chdir("..")
+    top_dir = os.getcwd()
+    print(top_dir)
+    os.chdir("drive0")
+    setupfinised = False
     os.chdir("root")
     if platform.system() == "Windows":
         host_os = "Windows"
@@ -30,10 +39,6 @@ def readreqfiles(setupfinised):
         content = tmpusrfile.readlines()
         username = content[0]
         password = content[1]
-        print(content[0])
-        print(content[1])
-        print(username)
-        print(password)
 
 def auth(password, usr_action_confirmed):
     passconfirm = input("Enter password: ")
@@ -71,35 +76,35 @@ def shutdown():
 
 print("What would you like to do?")
 
-def main(username): 
+def main(username, host_os, currdir, top_dir): 
     global usr_action_confirmed
     try:
         while True:
             #this code replaces the standard path in the command input
-            currdir = os.getcwd()
-            currdir = currdir.replace("/home", "")
-            currdir = currdir.replace("/Desktop/win71-py/", "") 
-            currdir = currdir.replace(irlusrname, "")
-            
+            if host_os == "Linux":
+                currdir = os.getcwd()
+                currdir = currdir.replace("/home", "")
+                currdir = currdir.replace("/Desktop/win71-py/", "") 
+                currdir = currdir.replace(irlusrname, "")
+            if host_os == "Windows":
+                currdir = os.getcwd()
+                currdir = currdir.replace("D:\\package man", "")
+                currdir = currdir.replace("/drive0/", "")
+                #currdir = currdir.replace(irlusrname, "")
+
+            print(top_dir)
+            print(platform.system())
+            print(host_os)
             command = input(currdir + ": ")
 
             if command == "quit":
                 shutdown()
-            if command == "cd":
-                #command = input("Enter the directory you would like to go to: ")
-                print(command)
-                command = command.replace("cd", "")
-                os.chdir(command)
-                print(command)
-                #directory = input("Enter directory: ")
-                #print(directory)
-                #os.chdir(directory)
-            if command == "mkdir":
-                directory = input("Enter directory: ")
-                os.mkdir(directory)
-            if command == "rmdir":
-                directory = input("Enter directory: ")
-                os.rmdir(directory)
+            if command.startswith("cd"):
+                os.chdir(command.replace("cd ", ""))
+            if command.startswith("mkdir"):
+                os.mkdir(command.replace("mkdir", ""))
+            if command.startswith("rmdir"):
+                os.rmdir(command.replace("rmdir ", ""))
             if command == "ls": #fix this so it will list files and directories
                 print(os.listdir())
             if command == "osinfo":
@@ -133,6 +138,6 @@ def main(username):
 
 if setupfinised == False:
     readreqfiles(setupfinised)
-main(username)
+main(username, host_os, currdir, top_dir)
 
 
