@@ -1,9 +1,9 @@
 import sys
 import os
 import zlib
-from cryptography.fernet import Fernet
+#from cryptography.fernet import Fernet
 import platform
-
+import getpass
 
 def bootup():
     #bootcfg_spliced = ""
@@ -55,7 +55,7 @@ def login():
         print(test)
         print("welcome to win71!", '\n', "please login")
         username = input("username: ")
-        password = input("password: ")
+        password = getpass.getpass('Password:')
         with open("tmpusrfile.user", "w") as tmpusrfile:
             tmpusrfile.writable()
             tmpusrfile.write(str(username))
