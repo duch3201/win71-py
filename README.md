@@ -2,5 +2,12 @@
 a remake of my old project called win71 but in python
 
 
-### works in windows only for now
-## should work in linux idk
+
+## supported os's
+* Windows
+* Linux
+
+## used projects
+[MY-NOTEPAD](https://github.com/abhishuraina/MY-NOTEPAD)
+
+[calculadora-tk](https://github.com/matheusfelipeog/calculadora-tk)
