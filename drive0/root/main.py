@@ -157,14 +157,20 @@ def main(username, host_os, currdir, top_dir):
             if command == "watmypass":
                 print(password)
             if command.startswith("note"):
-                note_filename = input("Enter note filename: ")
-                if os.getcwd() == "drive0":
-                    os.chdir("apps")
-                    subprocess.run(['note', 'new', 'test', note_filename])
-                else:
-                    os.chdir("..")
-                    os.chdir("apps")
-                    subprocess.run(['note', 'new', 'test', note_filename])
+                olddir = os.getcwd()
+                os.chdir("..")
+                os.chdir("apps")
+                os.chdir("my-notepad")
+                os.system("python notepad.py")
+                os.chdir(olddir)
+            if command.startswith("calc"):
+                olddir = os.getcwd()
+                os.chdir("..")
+                os.chdir("apps")
+                os.chdir("calculadora-tk")
+                os.system("Calculadora.exe")
+                os.chdir(olddir)
+                #os.system('main.py')
             if command == "help":
                 print("---------------|help|---------------")  
                 print("""
