@@ -1,7 +1,7 @@
 import sys
 import os
 import syslogon
-
+import exec
 import getpass
 import platform
 import subprocess
@@ -21,7 +21,7 @@ top_dir = ""
 currdir = ""
 irlusrname = getpass.getuser()
 Guest_OS = "vin71"
-Guest_OS_build = "12.18.1"
+Guest_OS_build = "12.24.1"
 
 #additional functions
 
@@ -160,17 +160,24 @@ def main(username, host_os, currdir, top_dir):
                 olddir = os.getcwd()
                 os.chdir("..")
                 os.chdir("apps")
-                os.chdir("my-notepad")
-                os.system("python notepad.py")
-                os.chdir(olddir)
+                if host_os == "Linux" or host_os == "Darwin":
+                    os.chdir("notepad for linux")
+                    exec(open("notepA.py").read())
+                    #os.chdir(olddir)
+                if host_os == "Windows":
+                    os.chdir("my-notepad")
+                    exec(open("Notepad.py").read())
+                    #os.chdir(olddir)
             if command.startswith("calc"):
                 olddir = os.getcwd()
                 os.chdir("..")
                 os.chdir("apps")
-                os.chdir("calculadora-tk")
-                os.system("Calculadora.exe")
-                os.chdir(olddir)
-                #os.system('main.py')
+                os.chdir("calculator")
+                #os.system("Calculadora.exe")
+                #exec(open("main.py").read())
+                
+                #os.chdir(olddir)
+                
             if command == "help":
                 print("---------------|help|---------------")  
                 print("""
@@ -182,6 +189,9 @@ def main(username, host_os, currdir, top_dir):
                 whoami - show username
                 sysinfo - show system information
                 quit - shutdown the system
+                note - open notepad
+                calc - open calculator
+                help - show this menu
                 """)
     except KeyboardInterrupt:
         shutdown()
